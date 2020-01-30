@@ -1,0 +1,25 @@
+How remove ‘$’ from your data in Python
+
+Most straightforward but slowest:
+%timeit df.state_bottle_retail.apply(lambda x: x.replace('$',''))
+
+Using .strip instead of .replace, instead of replacing the ‘$’ with a blank space, it just takes out the ‘$.’:
+%timeit df.state_bottle_retail.apply(lambda x: x.strip('$'))
+
+List comprehensions: very efficient method of iterating over a lot of objects in Python. 
+.strip method with a list comprehension instead of .apply method: 
+%timeit [x.strip('$') for x in df.state_bottle_retail]
+
+
+Slicing method (Fastest but not as safe): Instead of using a function to pull out the ‘$’, use Python built in [] slicing:
+%timeit [x[1:] for x in df.state_bottle_retail]
+
+To make any of these changes actually work, you’d have to assign the changed values back to the column you are changing in your DataFrame:
+df.state_bottle_retail = [x.strip('$') for x in df.state_bottle_retail]
+
+
+Source:
+https://towardsdatascience.com/5-methods-to-remove-the-from-your-data-in-python-and-the-fastest-one-281489382455
+
+
+

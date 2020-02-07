@@ -1,0 +1,159 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\fnil\fcharset0 HelveticaNeue;
+\f3\fnil\fcharset0 STIXGeneral-Regular;\f4\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;\red251\green2\blue7;\red255\green255\blue255;
+\red14\green14\blue14;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;\cssrgb\c100000\c14913\c0;\cssrgb\c100000\c100000\c100000;
+\cssrgb\c6667\c6667\c6667;}
+\margl1440\margr1440\vieww9020\viewh15740\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Relat. btwen Categ. vars\
+marplot inlliine\
+ \
+relax between from location vs. class\
+counting number of passengers in each class that embarked at each location \
+create pivot table\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Contingency table
+\fs24 /cross-tabulation: A pivot table stores counts\
+\cf2 counts = pd.crosstab(titanic_df.embarked, titanic_df.pclass)\
+counts\cf0 \
+\
+
+\fs36 Joint Distributions 
+\fs24 \
+Joint Distribution: It is common to norm counts so they add up to 1. Divide counts by total.\
+\
+
+\f1\i print(counts.sum().sum()) #First call gives us sum of each column, 2nd call adds those together\
+joint = counts / counts.sum().sum()\
+joint
+\f0\i0 \
+\
+Proportion:\
+P(embarked South in 3rd class) = .379\
+\
+Outputting Table of Joint Proportions\
+\cf2 pd.crosstab(titanic_df.embarked, titanic_df.pclass,\
+            normalize=True\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-02-05 at 3.58.27 PM.png \width8660 \height4440 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 The above joint distribution table is not a contingency table\
+\
+**********************************************************************\
+
+\fs36 Marginal Distributions
+\fs24 : \
+distr. of a var, \
+calculate it from Joint Table, \
+sum of rows or cols \
+\
+Over Cols:\
+\cf2 joint.sum(axis=1)\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic.png \width4980 \height2000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Over rows:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf3 joint.sum(axis=0)\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic 1.png \width2980 \height1980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Check if correct from original data:\
+\cf2 embarked_counts = titanic_df.groupby("embarked")["name"].count()\
+embarked_counts / embarked_counts.sum()\
+\cf0 \
+Contingency Table with Marginal Distributions!\
+\cf2 pd.crosstab(titanic_df.embarked, titanic_df.pclass,\
+            normalize=True, margins=True)\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic 1D5046A2-E785-49AB-9173-D43D8ED6AC5F.png \width9700 \height5200 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+************************************************************************************************************\
+
+\fs36 Conditional Distributions
+\fs24 : distr of one var \ul conditional\ulnone  on the val of another \
+\
+P(A|B) = %   
+\f1\i Proportion of 3rd class departing from all 3 locations\
+
+\f0\i0 \
+\cf2 embarked_class_counts[3] / embarked_class_counts[3].sum()\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic 2.png \width4300 \height1580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+Can also use joint\
+\cf2 joint[3] / joint[3].sum()\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic 3.png \width4240 \height1880 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 ************************************************************************************************************\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Calculating Cond. Distributions of all categories of a var\
+\
+\pard\pardeftab720\sl340\partightenfactor0
+
+\f2\fs28 \cf4 \cb5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 What proportion of Southampton passengers were in 3rd class?"\
+
+\f3\fs33\fsmilli16940 \up0 \uc0\u55349 \u56387 
+\f4\fs37\fsmilli18600 (
+\fs33\fsmilli16940 in 3rd class\'a0|\'a0embarked at Southampton
+\fs37\fsmilli18600 )
+\f2\fs33\fsmilli16940  
+\f4 =\
+\pard\pardeftab720\sl400\qc\partightenfactor0
+
+\fs24 \cf4 # passengers who embarked at Southampton and in 3rd class / # passengers who embarked at Southampton
+\f2\fs33\fsmilli16940 \cb1 \
+\pard\pardeftab720\sl340\partightenfactor0
+
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \up0 \outl0\strokewidth0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+  1) Sum of Each row/class (axis = 0)\
+     \cf2 pclass_counts = embarked_pclass_counts.sum(axis=0)\
+     pclass_counts\cf0 \
+  \
+  2) Divide each col of \'91class counts\'94\
+ by this \
+      \cf2 embarked_given_pclass = embarked_pclass_counts.divide(pclass_counts, axis=1)\
+      embarked_given_pclass \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 ************************************************************************************************************\
+Visualization \
+\
+Heat Map\
+(Dont forget to import Seaborn!)\
+import seaborn as sns\
+sns.heatmap(joint)\
+\
+Stacked Bar Graph\
+pclass_given_embarked.plot.bar(stacked=True)\
+\
+Transposing a Data Set\
+embarked_given_pclass.T\
+\
+\
+\
+}

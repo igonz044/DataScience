@@ -1,0 +1,148 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 Helvetica-Oblique;
+\f3\fmodern\fcharset0 Courier-Oblique;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww12600\viewh15740\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 2.1 Notes
+\fs24 \
+\
+
+\fs28 Filtering DataFrame
+\fs24 \
+\ul First way\
+\ulnone *first method forces you to change the index\
+set filtering variable as index and select value you want:\
+
+\f1 males = titanic_df.set_index("sex").loc["male"]\
+males\
+\
+males.age.plot.hist()
+\f0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ul \ulc0 Second Way: Creating boolean mask\ulnone \
+You can also filter data using 
+\f2\i boolean mask
+\f0\i0  the following code produces a boolean mask that is equal to True for the male passengers and False otherwise:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1 \cf0 titanic_df.sex == "male"\
+\
+0       False \
+1        True \
+... \
+1307     True \
+1308     True \
+Name: sex, Length: 1309, dtype: bool
+\f0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ul Outputting only one data category\ulnone \
+Notice equality operator is being broadcast over the element of 
+\f1 titanic_df.sex
+\f0 , we end up with series of booleans. This boolean mask can be passed into a DataFrame to obtain subset of rows where mask = True. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1 \cf0 titanic_df[titanic_df.sex == "male"]
+\f0 \
+This will output only the \'93male\'94 data.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ul Function to output how many males\ulnone \
+The variable sex should only take on one value, "male". Let's check this:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1 \cf0 titanic_df[titanic_df.sex == "male"]["age"].value_counts()
+\f0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ul select columns at the same time that we are filtering rows\
+\pard\pardeftab720\sl340\partightenfactor0
+\cf0 \ulnone returns the ages of the male passengers:
+\f1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0     titanic_df    [titanic_df.sex == "male"]["age"]
+\f0 \
+\pard\pardeftab720\sl340\partightenfactor0
+\cf0     using a boolean mask:\
+
+\f1     titanic_df.loc[titanic_df.sex == "male", "age"]
+\f0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\sl340\partightenfactor0
+
+\fs28 \cf0 Speed Comparison
+\fs24 \
+use %timeit magic\
+%timeit titanic_df.set_index("sex").loc["male"]\
+%timeit titanic_df.loc[titanic_df.sex == "male"]\
+\ul \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Working with Boolean Series\
+\ulnone * boolean variable usually regarded as categorical but also can be regarded as quantitative True = 1 False = 0\
+\pard\pardeftab720\sl340\partightenfactor0
+\cf0 Following command produces a Series of 0s and 3s:\
+
+\f1 (titanic_df.sex == "male") * 3
+\f0 \
+\
+\pard\pardeftab720\sl340\partightenfactor0
+\cf0 \ul Summing boolean values to get total of observations:\
+\pard\pardeftab720\sl340\partightenfactor0
+
+\f1 \cf0 \ulnone (titanic_df.sex == "male").sum()\
+843
+\f0 \
+\'85.Mean gives us Proportions:\
+
+\f1 (titanic_df.sex == "male\'94).mean()\
+0.644\'85
+\f0 \
+\
+\pard\pardeftab720\sl340\partightenfactor0
+\cf0 \ul Filtering and Visualizing Multiple Variable\ulnone \
+    1) Create boolean masks for each variable/filter of interest\
+\pard\pardeftab720\sl340\partightenfactor0
+
+\f1 \cf0     titanic_df.sex == "male"
+\f0 \
+    2) Combine into single mask that is true when all masks are true\
+
+\f1     (titanic_df.sex == "male") & (titanic_df.survived == 1)
+\f0 \
+    3) Plot distribution\
+
+\f1     titanic_df[
+\f3\i boolean mask here
+\f1\i0 ].age.plot.hit()
+\f0 \
+\
+were you able to figure out why veterans on the tables were wrong?\
+\
+also is there someone \
+\
+\
+git pull origin master\
+git merge origin master\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+}
